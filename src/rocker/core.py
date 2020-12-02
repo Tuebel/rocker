@@ -262,11 +262,13 @@ class DockerImageGenerator(object):
         image = self.image_id
         operating_mode = kwargs.get('mode')
         cmd="docker run"
+        if(not kwargs.get('nocleanup')):
+            cmd += " --rm"
+
         if operating_mode != OPERATIONS_NON_INTERACTIVE:
             # only disable for OPERATIONS_NON_INTERACTIVE
             cmd += " -it"
         cmd += " \
-  --rm \
   %(docker_args)s \
   %(image)s %(command)s" % locals()
 #   $DOCKER_OPTS \
